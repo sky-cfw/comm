@@ -1,3 +1,6 @@
+#ifndef DATE_TIME_H
+#define DATE_TIME_H
+
 #include <stdio.h>
 #include <stdint.h>
 #include <time.h>
@@ -50,3 +53,4 @@ namespace boss
 	}
 }
 
+#endif

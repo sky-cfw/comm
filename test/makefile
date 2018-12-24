@@ -1,5 +1,5 @@
 # INC
-INCLUDE = -I${PLAT_COMM_PATH}/common/utils
+INCLUDE = -I${PLAT_COMM_PATH}/comm/utils
 
 # LIB
 LIB = -lpthread -lrt
@@ -16,7 +16,7 @@ VPATH=../utils/
 
 #
 %.o: %.cpp
-	g++ $(INCLUDE) -c -o $@ $^ -Wno-deprecated
+	g++ $(INCLUDE) -c -o $@ $< -Wno-deprecated
 
 # output
 OUT_PUT = $(BIN_TIMER_TEST) $(BIN_EPOLL_TIMER)
@@ -30,7 +30,6 @@ $(BIN_EPOLL_TIMER): $(OBJ_EPOLL_TIMER)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 
+.PHONY: clean all
 clean:
 	rm -f *.o $(OUT_PUT)
-
-.PHONY: clean all
