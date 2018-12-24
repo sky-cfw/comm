@@ -10,7 +10,9 @@ BIN_EPOLL_TIMER = epoll_timer
 
 # obj
 OBJ_TIMER_TEST = timer_test.o
-OBJ_EPOLL_TIMER = epoll_timer.o
+OBJ_EPOLL_TIMER = epoll_timer.o reactor.o
+
+VPATH=../utils/
 
 #
 %.o: %.cpp
