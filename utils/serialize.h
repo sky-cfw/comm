@@ -96,7 +96,7 @@ namespace boss
         {
         public:
             template<typename DATA>
-            Buffer &operator &(const DATA &d)//操作符overload为什么要返回对象本身？
+            Buffer &operator &(const DATA &d)//操作符overload为什么要返回对象本身?
             {
                 int32_t iLen = this->length();
                 if (_version > 0)
