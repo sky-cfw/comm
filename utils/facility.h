@@ -15,6 +15,8 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <stdlib.h>
+#include <sstream>
 
 namespace boss
 {
@@ -83,7 +85,24 @@ namespace boss
 			return 0;
 		}
 
+		/**********************************************************************************************************
+		* Copyright:             Tencent Tech.co,Ltd. 2015-. All rights reserved
+		* File name:		     convert to str
+		* Description:		     
+		* Author:                sky
+		* Version:               V1.0
+		* Date:				     
+		* History:
+		                         1. Date:          2. Author:         3. Modification:
+		**********************************************************************************************************/
+		template <class _T>
+		std::string ConvertToString( const _T &obj )
+		{
+			std::stringstream ssContent;
+			ssContent << obj;
 
+			return ssContent.str();
+		}
 	}
 }
 

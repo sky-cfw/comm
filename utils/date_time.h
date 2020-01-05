@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <time.h>
 #include <string>
+#include <sys/time.h>
 
 namespace boss
 {
@@ -46,6 +47,12 @@ namespace boss
 				return std::string(szDate);
 			}
 
+			uint64_t GetCurrentTus()
+			{
+				struct timeval time;
+    			gettimeofday( &time, NULL );
+    			return (time.tv_sec * 1000000 + time.tv_usec);
+			}
 		//attr
 		private:
 			time_t m_tmSeconds;

@@ -1,3 +1,13 @@
+/**********************************************************************************************************
+* Copyright:             Tech.co,Ltd. 2015-. All rights reserved
+* File name:		     
+* Description:		     
+* Author:                sky
+* Version:               V1.0
+* Date:				     
+* History:
+                         1. Date:          2. Author:         3. Modification:
+**********************************************************************************************************/
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -11,12 +21,25 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/wait.h>
+#include <sys/epoll.h>
+#include "nonblockio.h"
+#include "defs.h"
 
+using namespace boss::container;
+using namespace boss::comm;
 
-int test_thunding_herd( const std::string &sHost, const uint16_t &ui16Port, const int &iProcNum )
+/**********************************************************************************************************
+* Function:
+* Description:		    accept惊群测试
+* Access Level:		
+* Input:
+* Output:
+* Return:
+* Others:
+                        1. Date:           2. Author:          3.Modification:
+**********************************************************************************************************/
+int TestAcceptThundingHerd( const std::string &sHost, const uint16_t &ui16Port, const int &iProcNum )
 {
-	#define MAX_SOCKQUEUE_LEN 1024
-
 	int         iSockFd;
     int         nRetSetOpt;
     int         nRetBnd;
@@ -51,16 +74,19 @@ int test_thunding_herd( const std::string &sHost, const uint16_t &ui16Port, cons
         close(iSockFd);
         return -1;
     }
+    
     if ( (nRetBnd = bind(iSockFd, (struct sockaddr*) & rServaddr, sizeof(rServaddr))) < 0 )
     {
         close(iSockFd);
         return -1;
     }
+    /*
     if ( listen(iSockFd, MAX_SOCKQUEUE_LEN) < 0 )		//	监听套接字连接队列大小  未完成连接队列(SYN_REVD状态) + 已完成连接队列(ESTABLISHED状态)
     {
         close(iSockFd);
         return -1;
     }
+    */
 
     int             iConnFd;
     struct sockaddr_in rCliAddr;
@@ -71,8 +97,16 @@ int test_thunding_herd( const std::string &sHost, const uint16_t &ui16Port, cons
     	pid = fork();
     	if ( 0 == pid )
     	{
+		    if ( listen(iSockFd, /*MAX_SOCKQUEUE_LEN*/1) < 0 )		//	监听套接字连接队列大小  未完成连接队列(SYN_REVD状态) + 已完成连接队列(ESTABLISHED状态)
+		    {
+		        close(iSockFd);
+		        printf("listen failed, errmsg:%s\n", strerror(errno) );
+		        return -1;
+		    }
+
     		for ( ; ; )
     		{
+    			
     			memset(&rCliAddr, 0, sizeof(rCliAddr));
     			iConnFd = accept( iSockFd, (struct sockaddr*) &rCliAddr, &nLenCliAddr );
     			if ( iConnFd < 0 )
@@ -80,12 +114,20 @@ int test_thunding_herd( const std::string &sHost, const uint16_t &ui16Port, cons
 		            if ( EINTR == errno )
 		                continue;
 		            else
-		                return -1;
+		                break;
 		        }
-		        snprintf(szBuf, sizeof(szBuf), "accept pid=%d\n", getpid());
-		        write( iConnFd, szBuf, strlen(szBuf)+1 );
-		        printf( "accept pid=%d, buflen=%lu\n", getpid(), strlen(szBuf)+1 );
-		        close(iConnFd);
+		        for ( ; ; )
+		        {
+		        	read( iConnFd, szBuf, 1024 );
+			        //snprintf(szBuf, sizeof(szBuf), "accept pid=%d\n", getpid());
+			        write( iConnFd, szBuf, strlen(szBuf)+1 );
+		        }
+		        //read( iConnFd, szBuf, 1024 );
+		        //snprintf(szBuf, sizeof(szBuf), "accept pid=%d\n", getpid());
+		        //write( iConnFd, szBuf, strlen(szBuf)+1 );
+		        //printf( "accept pid=%d, buflen=%lu\n", getpid(), strlen(szBuf)+1 );
+		        //close(iConnFd);
+		        //sleep(1000000);//测试
     		}
     	}
     }
@@ -102,6 +144,7 @@ int test_thunding_herd( const std::string &sHost, const uint16_t &ui16Port, cons
     			continue;
     		}
     		//没有子进程了
+			printf("no child to wait, break\n");
     		break;
     	}
     	printf("wait pid=%d succ\n", iRet);
@@ -110,12 +153,120 @@ int test_thunding_herd( const std::string &sHost, const uint16_t &ui16Port, cons
 	return 0;
 }
 
+/**********************************************************************************************************
+* Function:
+* Description:		    测试epoll惊群
+* Access Level:		
+* Input:
+* Output:
+* Return:
+* Others:
+                        1. Date:           2. Author:          3.Modification:
+**********************************************************************************************************/
+int TestEpollThundingHerd( const std::string &sHost, const uint16_t &ui16Port, const int &iProcNum )
+{
+	#define MAX_EVENTS 500
+
+	int iListenFd = NonBlockTcpListen( sHost.c_str(), ui16Port );
+	if ( iListenFd < 0 )
+	{
+		return FAILED;
+	}
+
+	int iEpollFd = epoll_create( 4096 );//---创建指向epoll实例的文件描述符(监听队列大小4096),2.6.8内核以上版本此参数不在使用
+    if ( iEpollFd < 0 )
+    {
+        printf("epoll_create err [%d]",iEpollFd);
+        return -1;
+    }
+
+    struct  epoll_event stEpollEvent;
+    memset(&stEpollEvent,0x0,sizeof(stEpollEvent));
+    stEpollEvent.data.fd = iListenFd;
+    stEpollEvent.events   = EPOLLIN | EPOLLERR;//---Error  condition  happened  on  the  associated  file descriptor.  epoll_wait(2) will always wait for this event; it is not necessary to set it in events.
+    epoll_ctl ( iEpollFd, EPOLL_CTL_ADD, iListenFd, &stEpollEvent );
+
+    struct epoll_event *pEvents = NULL;
+	pEvents = (struct epoll_event *)calloc( MAX_EVENTS, sizeof(epoll_event) );
+	if ( NULL == pEvents )
+	{
+		printf( "calloc err" );
+		return -1;
+	}
+
+	int iReadyFds = 0, iConnFd = 0;
+	pid_t pid = 0;
+	struct sockaddr_in rCliAddr;
+    socklen_t       nLenCliAddr = sizeof(rCliAddr);
+	for ( int i = 0; i < iProcNum; ++i )
+	{
+		pid = fork();
+		if ( 0 == pid )
+		{
+			for ( ; ; )
+			{
+				iReadyFds = epoll_wait( iEpollFd, pEvents, MAX_EVENTS, -1 );
+				if ( -1 == iReadyFds && errno == EINTR )
+				{
+					printf( "epoll_wait err" );
+					continue;
+				}
+
+				for ( int i = 0; i < iReadyFds; i++ )
+				{
+					if ( EPOLLIN == (pEvents[i].events & EPOLLIN)
+					&& iListenFd == pEvents[i].data.fd )//客户端连接到来
+					{
+						//printf( "epoll_wait pid=%d\n", getpid() );
+						memset(&rCliAddr, 0, sizeof(rCliAddr));
+		    			iConnFd = accept( iListenFd, (struct sockaddr*) &rCliAddr, &nLenCliAddr );
+		    			if ( iConnFd < 0 )
+				        {
+				            if ( EINTR == errno )
+				            {
+				                continue;
+				            }
+				            else
+				            {
+				                return -1;
+				            }
+				        }
+				        //printf( "accept pid=%d\n", getpid() );
+		        		close(iConnFd);
+					}
+					
+				}
+			}
+		}
+	}
+	
+
+	//回收所有子进程
+    int iRet = 0;
+    for ( ; ; )
+    {
+    	iRet = wait( NULL );//阻塞等待回收
+    	if ( -1 == iRet )
+    	{
+    		if ( EINTR == errno )//被信号中断
+    		{
+    			continue;
+    		}
+    		//没有子进程了
+    		break;
+    	}
+    	printf("wait pid=%d succ\n", iRet);
+    }
+
+	return SUCCESS;
+}
 
 int main(int argc, char const *argv[])
 {
 	if ( argc < 2 )
 	{
-		printf( "./test_thunding_herd <1> proc_num\n" );
+		printf( "./TestAcceptThundingHerd <1> host port proc_num\n" );
+		printf( "./TestEpollThundingHerd <1> host port proc_num\n" );
 		return 0;
 	}
 	
@@ -124,13 +275,25 @@ int main(int argc, char const *argv[])
 	{
 		if ( argc < 5 )
 		{
-			printf( "./test_thunding_herd <1> host port proc_num\n" );
+			printf( "./TestAcceptThundingHerd <1> host port proc_num\n" );
 			return 0;
 		}
 		std::string sHost = argv[2];
 		uint16_t ui16Port = strtoul( argv[3], NULL, 10 );
 		int iProcNum = atoi(argv[4]);
-		test_thunding_herd( sHost, ui16Port, iProcNum );
+		TestAcceptThundingHerd( sHost, ui16Port, iProcNum );
+	}
+	else if ( 2 == iOption )
+	{
+		if ( argc < 5 )
+		{
+			printf( "./TestEpollThundingHerd <1> host port proc_num\n" );
+			return 0;
+		}
+		std::string sHost = argv[2];
+		uint16_t ui16Port = strtoul( argv[3], NULL, 10 );
+		int iProcNum = atoi(argv[4]);
+		TestEpollThundingHerd( sHost, ui16Port, iProcNum );
 	}
 
 	return 0;
