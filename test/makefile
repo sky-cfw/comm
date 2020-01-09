@@ -14,6 +14,7 @@ BIN_TEST_TCP_NAGLE_CLIENT = test_tcp_nagle_client
 BIN_TEST_CMP_COST = test_cmp_cost
 BIN_MY_SQRT = my_sqrt
 BIN_CONSISTENT_HASH = consistent_hash
+BIN_HEAP = heap
 
 # obj
 OBJ_TIMER_TEST = timer_test.o
@@ -24,8 +25,9 @@ OBJ_TEST_TCP_NAGLE_CLIENT = test_tcp_nagle_client.o
 OBJ_TEST_CMP_COST = test_cmp_cost.o
 OBJ_MY_SQRT = sqrt.o
 OBJ_CONSISTENT_HASH = consistent_hash.o
+OBJ_HEAP = heap.o
 
-VPATH=../utils/:performance/:leetcode/:hash/
+VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/
 
 #
 %.o: %.cpp
@@ -39,7 +41,8 @@ $(BIN_TEST_SET_SOCK_OPT) \
 $(BIN_TEST_TCP_NAGLE_CLIENT) \
 $(BIN_TEST_CMP_COST) \
 $(BIN_MY_SQRT)\
-$(BIN_CONSISTENT_HASH)
+$(BIN_CONSISTENT_HASH)\
+$(BIN_HEAP)
 
 all:$(OUT_PUT)
 
@@ -66,6 +69,9 @@ $(BIN_MY_SQRT): $(OBJ_MY_SQRT)
 
 $(BIN_CONSISTENT_HASH): $(OBJ_CONSISTENT_HASH)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated	
+
+$(BIN_HEAP): $(OBJ_HEAP)
+	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 .PHONY: clean all
 clean:
