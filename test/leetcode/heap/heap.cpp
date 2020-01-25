@@ -4,7 +4,7 @@
 * Description:		      
 * Author:                sky
 * Version:               V1.0
-* Date:				  
+* Date:				     2020/01/08
 * History:					  
                          1. Date:          2. Author:         3. Modification:
 **********************************************************************************************************/
@@ -12,12 +12,12 @@
 #include <iostream>
 using namespace std;
 
-// CHeap::CHeap(/* args */):
-// m_iCnt(0),
-// m_iHeapType(HEAP_TYPE_MAX)//默认最大堆
-// {
+CHeap::CHeap():
+m_iHeapType(HEAP_TYPE_MAX),
+m_iCnt(0)
+{
 
-// }
+}
 
 CHeap::CHeap( const int a[], const int &size, const int &type ):
 m_iHeapType(type),
@@ -48,11 +48,11 @@ CHeap::~CHeap()
 void CHeap::push( const int &k )
 {
     //先放入完全二叉树的尾部
-    if ( 0 == m_iCnt )
+    if ( 0 == m_iCnt && 0 == m_vecBuff.size() )
     {
-        m_vecBuff.push_back(0);//第一个位置元素废弃，这里填充一个元素
+        m_vecBuff.push_back(-999);//第一个位置元素废弃，这里填充一个元素   
     }
-    m_vecBuff.push_back(k);
+    m_vecBuff.push_back(k);//不能用push_back，否则删除堆顶元素后，下次再添加元素时，导致删除的元素仍存在
     ++m_iCnt;
 
     //开始向上堆化
@@ -89,6 +89,7 @@ void CHeap::pop()
     //交换堆顶与尾部元素
     std::swap( m_vecBuff[1], m_vecBuff[m_iCnt] );
     --m_iCnt;
+    m_vecBuff.pop_back();
 
     //向下堆化
     heapify();
@@ -108,30 +109,30 @@ void CHeap::pop()
 **********************************************************************************************************/
 void CHeap::heapify()
 {
-    int i = 1, iMax = i;
+    int i = 1, iTmp = i;
     while( 1 )
     {
-        if ( HEAP_TYPE_MAX == m_iHeapType
-        && (2*i) <= m_iCnt
-        && m_vecBuff[iMax] < m_vecBuff[2*i] )
+        if ( (2*i) <= m_iCnt
+        && ( ( HEAP_TYPE_MAX == m_iHeapType && m_vecBuff[iTmp] < m_vecBuff[2*i] )//大顶堆
+            || ( HEAP_TYPE_MIN == m_iHeapType && m_vecBuff[iTmp] > m_vecBuff[2*i] ) ) )//小顶堆
         {
-            iMax = 2*i;
+            iTmp = 2*i;
         }
         
-        if ( HEAP_TYPE_MAX == m_iHeapType 
-        && (2*i+1) <= m_iCnt
-        && m_vecBuff[iMax] < m_vecBuff[2*i+1] )
+        if ( (2*i+1) <= m_iCnt
+        && ( (HEAP_TYPE_MAX == m_iHeapType && m_vecBuff[iTmp] < m_vecBuff[2*i+1] )
+            || (HEAP_TYPE_MIN == m_iHeapType && m_vecBuff[iTmp] > m_vecBuff[2*i+1] ) ) )
         {
-            iMax = 2*i+1;
+            iTmp = 2*i+1;
         }
 
-        if ( iMax == i )
+        if ( iTmp == i )
         {
             break;
         }
 
-        std::swap( m_vecBuff[i], m_vecBuff[iMax] );
-        i = iMax;
+        std::swap( m_vecBuff[i], m_vecBuff[iTmp] );
+        i = iTmp;
     }
 
     return ;
@@ -172,19 +173,19 @@ int CHeap::size()
     return m_iCnt;
 }
 
-int main(int argc, char const *argv[])
-{
-    int a[6] = {1,4,3,9,2,7};
-    CHeap cHeap( a, 6, CHeap::HEAP_TYPE_MAX );//建堆，时间复杂度O(logn)
+// int main(int argc, char const *argv[])
+// {
+//     int a[6] = {1,4,3,9,2,7};
+//     CHeap cHeap( a, 6, CHeap::HEAP_TYPE_MAX );//建堆，时间复杂度O(logn)
 
-    cHeap.push( 5 );
+//     cHeap.push( 5 );
 
-    //堆排序，堆顶元素出堆
-    while( 0 != cHeap.size() )
-    {
-        cout << cHeap.front() << endl;
-        cHeap.pop();//堆化，时间复杂度O(logn)
-    }
+//     //堆排序，堆顶元素出堆
+//     while( 0 != cHeap.size() )
+//     {
+//         cout << cHeap.front() << endl;
+//         cHeap.pop();//堆化，时间复杂度O(logn)
+//     }
 
-    return 0;
-}
+//     return 0;
+// }

@@ -3,7 +3,7 @@ INCLUDE = -I${PLAT_COMM_PATH}/comm/utils
 
 # LIB
 LIB = -lpthread -lrt \
--L$(PLAT_COMM_PATH)/comm/libs -lmurmur_hash3
+-L$(PLAT_COMM_PATH)/comm/libs -lmurmur_hash3 -lheap
 
 # bin
 BIN_TIMER_TEST = timer_test
@@ -14,7 +14,8 @@ BIN_TEST_TCP_NAGLE_CLIENT = test_tcp_nagle_client
 BIN_TEST_CMP_COST = test_cmp_cost
 BIN_MY_SQRT = my_sqrt
 BIN_CONSISTENT_HASH = consistent_hash
-BIN_HEAP = heap
+BIN_PERCENT = percent
+BIN_BFS = bfs
 
 # obj
 OBJ_TIMER_TEST = timer_test.o
@@ -25,9 +26,10 @@ OBJ_TEST_TCP_NAGLE_CLIENT = test_tcp_nagle_client.o
 OBJ_TEST_CMP_COST = test_cmp_cost.o
 OBJ_MY_SQRT = sqrt.o
 OBJ_CONSISTENT_HASH = consistent_hash.o
-OBJ_HEAP = heap.o
+OBJ_PERCENT = percent.o
+OBJ_BFS = bfs.o
 
-VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/
+VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/:leetcode/graph
 
 #
 %.o: %.cpp
@@ -42,7 +44,8 @@ $(BIN_TEST_TCP_NAGLE_CLIENT) \
 $(BIN_TEST_CMP_COST) \
 $(BIN_MY_SQRT)\
 $(BIN_CONSISTENT_HASH)\
-$(BIN_HEAP)
+$(BIN_PERCENT)\
+$(BIN_BFS)
 
 all:$(OUT_PUT)
 
@@ -70,9 +73,11 @@ $(BIN_MY_SQRT): $(OBJ_MY_SQRT)
 $(BIN_CONSISTENT_HASH): $(OBJ_CONSISTENT_HASH)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated	
 
-$(BIN_HEAP): $(OBJ_HEAP)
+$(BIN_PERCENT): $(OBJ_PERCENT)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
+$(BIN_BFS): $(OBJ_BFS)
+	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 .PHONY: clean all
 clean:
 	rm -f *.o $(OUT_PUT)

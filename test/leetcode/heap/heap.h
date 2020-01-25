@@ -4,7 +4,7 @@
 * Description:		      
 * Author:                sky
 * Version:               V1.0
-* Date:				  
+* Date:				     2020/01/08
 * History:					  
                          1. Date:          2. Author:         3. Modification:
 **********************************************************************************************************/
@@ -29,6 +29,7 @@ private:
     int m_iCnt;//堆中元素个数
 
 public:
+    CHeap();
     CHeap( const int a[], const int &size, const int &type );
     virtual ~CHeap();
 

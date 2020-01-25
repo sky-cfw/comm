@@ -1,5 +1,5 @@
-#ifndef DEFs_H
-#define DEFs_H
+#ifndef DEFS_H
+#define DEFS_H
 
 namespace boss
 {
