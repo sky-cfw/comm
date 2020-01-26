@@ -16,6 +16,7 @@ BIN_MY_SQRT = my_sqrt
 BIN_CONSISTENT_HASH = consistent_hash
 BIN_PERCENT = percent
 BIN_BFS = bfs
+BIN_DFS = dfs
 
 # obj
 OBJ_TIMER_TEST = timer_test.o
@@ -28,6 +29,7 @@ OBJ_MY_SQRT = sqrt.o
 OBJ_CONSISTENT_HASH = consistent_hash.o
 OBJ_PERCENT = percent.o
 OBJ_BFS = bfs.o
+OBJ_DFS = dfs.o
 
 VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/:leetcode/graph
 
@@ -45,7 +47,8 @@ $(BIN_TEST_CMP_COST) \
 $(BIN_MY_SQRT)\
 $(BIN_CONSISTENT_HASH)\
 $(BIN_PERCENT)\
-$(BIN_BFS)
+$(BIN_BFS)\
+$(BIN_DFS)
 
 all:$(OUT_PUT)
 
@@ -78,6 +81,10 @@ $(BIN_PERCENT): $(OBJ_PERCENT)
 
 $(BIN_BFS): $(OBJ_BFS)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
+
+$(BIN_DFS): $(OBJ_DFS)
+	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
+
 .PHONY: clean all
 clean:
 	rm -f *.o $(OUT_PUT)
