@@ -17,6 +17,7 @@ BIN_CONSISTENT_HASH = consistent_hash
 BIN_PERCENT = percent
 BIN_BFS = bfs
 BIN_DFS = dfs
+BIN_BM = bm
 
 # obj
 OBJ_TIMER_TEST = timer_test.o
@@ -30,8 +31,9 @@ OBJ_CONSISTENT_HASH = consistent_hash.o
 OBJ_PERCENT = percent.o
 OBJ_BFS = bfs.o
 OBJ_DFS = dfs.o
+OBJ_BM = bm.o
 
-VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/:leetcode/graph
+VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/:leetcode/graph:leetcode/string_match
 
 #
 %.o: %.cpp
@@ -48,7 +50,8 @@ $(BIN_MY_SQRT)\
 $(BIN_CONSISTENT_HASH)\
 $(BIN_PERCENT)\
 $(BIN_BFS)\
-$(BIN_DFS)
+$(BIN_DFS)\
+$(BIN_BM)
 
 all:$(OUT_PUT)
 
@@ -83,6 +86,9 @@ $(BIN_BFS): $(OBJ_BFS)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 $(BIN_DFS): $(OBJ_DFS)
+	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
+
+$(BIN_BM): $(OBJ_BM)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 .PHONY: clean all
