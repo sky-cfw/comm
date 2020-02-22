@@ -1,0 +1,10 @@
+
+*.gitignore
+
+# linux
+*.DS_Store
+*.un~
+*.swap
+
+#cpp
+*.o

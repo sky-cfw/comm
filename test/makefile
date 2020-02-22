@@ -18,6 +18,7 @@ BIN_PERCENT = percent
 BIN_BFS = bfs
 BIN_DFS = dfs
 BIN_BM = bm
+BIN_HUFFMAN = huffman
 
 # obj
 OBJ_TIMER_TEST = timer_test.o
@@ -32,8 +33,9 @@ OBJ_PERCENT = percent.o
 OBJ_BFS = bfs.o
 OBJ_DFS = dfs.o
 OBJ_BM = bm.o
+OBJ_HUFFMAN = huffman.o
 
-VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/:leetcode/graph:leetcode/string_match
+VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/:leetcode/graph:leetcode/string_match:leetcode/greedy
 
 #
 %.o: %.cpp
@@ -51,7 +53,8 @@ $(BIN_CONSISTENT_HASH)\
 $(BIN_PERCENT)\
 $(BIN_BFS)\
 $(BIN_DFS)\
-$(BIN_BM)
+$(BIN_BM)\
+$(BIN_HUFFMAN)
 
 all:$(OUT_PUT)
 
@@ -89,6 +92,9 @@ $(BIN_DFS): $(OBJ_DFS)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 $(BIN_BM): $(OBJ_BM)
+	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
+
+$(BIN_HUFFMAN): $(OBJ_HUFFMAN)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 .PHONY: clean all
