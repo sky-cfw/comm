@@ -103,6 +103,28 @@ namespace boss
 
 			return ssContent.str();
 		}
+
+		/**********************************************************************************************************
+		* Copyright:             Tencent Tech.co,Ltd. 2015-. All rights reserved
+		* File name:		     calc bitmap's capacity
+		* Description:		     
+		* Author:                sky
+		* Version:               V1.0
+		* Date:				     
+		* History:
+		                         1. Date:          2. Author:         3. Modification:
+		**********************************************************************************************************/
+		uint64_t BitCount( uint64_t n )
+		{
+			uint64_t ui64Cnt = 0;
+			while(n)
+			{
+				n &= (n-1);
+				ui64Cnt++;
+			}
+
+			return ui64Cnt;
+		}
 	}
 }
 
