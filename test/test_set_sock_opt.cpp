@@ -85,6 +85,7 @@
 
 // #define	SO_NUMRCVPKT		0x1112	/* number of datagrams in receive socket buffer */
 
+//TCP_NODELAY --- 可以在Socket设置TCP_NODELAY选项来关闭这个Nagle算法（关闭 Nagle 算法没有全局参数，需要根据每个应用自己的特点来关闭）。
 static int gsDictSockopt[5] = {0x0000,SO_REUSEADDR,SO_REUSEPORT,SO_KEEPALIVE,SO_LINGER};
 
 /**********************************************************************************************************
@@ -125,7 +126,7 @@ int TestSetSockOpt( const int &iSockOpt, const std::string &sHost, const uint16_
     }
     // if ( SetSockNonBlock(iSockFd) < 0 )						//	设置为非阻塞模式
     // {
-    //     close(iSockFd);
+    //     close(iSockFd);œœ
     //     return -1;
     // }
     if ( 0 != iSockOpt )
@@ -138,20 +139,6 @@ int TestSetSockOpt( const int &iSockOpt, const std::string &sHost, const uint16_
 	        return -1;
 	    }
     }
-    /*
-    if ( (nRetBnd = bind(iSockFd, (struct sockaddr*) & rServaddr, sizeof(rServaddr))) < 0 )
-    {
-    	printf("bind failed, errmsg:%s\n", strerror(errno) );
-        close(iSockFd);
-        return -1;
-    }
-    
-    if ( listen(iSockFd, MAX_SOCKQUEUE_LEN) < 0 )		//	监听套接字连接队列大小  未完成连接队列(SYN_REVD状态) + 已完成连接队列(ESTABLISHED状态)
-    {
-        close(iSockFd);
-        return -1;
-    }
-    */
 
     int             iConnFd;
     struct sockaddr_in rCliAddr;
@@ -162,135 +149,7 @@ int TestSetSockOpt( const int &iSockOpt, const std::string &sHost, const uint16_
     	pid = fork();
     	if ( 0 == pid )
     	{
-    		if ( (nRetBnd = bind(iSockFd, (struct sockaddr*) & rServaddr, sizeof(rServaddr))) < 0 )
-		    {
-		    	printf("bind failed, errmsg:%s\n", strerror(errno) );
-		        close(iSockFd);
-		        return -1;
-		    }
-    		
-		    if ( listen(iSockFd, MAX_SOCKQUEUE_LEN) < 0 )		//	监听套接字连接队列大小  未完成连接队列(SYN_REVD状态) + 已完成连接队列(ESTABLISHED状态)
-		    {
-		        close(iSockFd);
-		        printf("listen failed, errmsg:%s\n", strerror(errno) );
-		        return -1;
-		    }
-
-    		for ( ; ; )
-    		{
-    			memset(&rCliAddr, 0, sizeof(rCliAddr));
-    			iConnFd = accept( iSockFd, (struct sockaddr*) &rCliAddr, &nLenCliAddr );
-    			if ( iConnFd < 0 )
-		        {
-		            if ( EINTR == errno )
-		                continue;
-		            else
-		                break;
-		        }
-		        snprintf(szBuf, sizeof(szBuf), "accept pid=%d\n", getpid());
-		        write( iConnFd, szBuf, strlen(szBuf)+1 );
-		        printf( "accept pid=%d, buflen=%lu\n", getpid(), strlen(szBuf)+1 );
-		        close(iConnFd);
-    		}
-    	}
-    }
-
-    //回收所有子进程
-    int iRet = 0;
-    for ( ; ; )
-    {
-    	iRet = wait( NULL );//阻塞等待回收
-    	if ( -1 == iRet )
-    	{
-    		if ( EINTR == errno )//被信号中断
-    		{
-    			continue;
-    		}
-    		//没有子进程了
-			printf("no child to wait, break\n");
-    		break;
-    	}
-    	printf("wait pid=%d succ\n", iRet);
-    }
-
-	return 0;
-}
-
-/**********************************************************************************************************
-* Function:
-* Description:		    测试套接字功能选项参数 - 
-* Access Level:		
-* Input:
-* Output:
-* Return:
-* Others:
-                        1. Date:           2. Author:          3.Modification:
-**********************************************************************************************************/
-int TestSetSockOpt_2( const int &iSockOpt, const std::string &sHost, const uint16_t &ui16Port, const int &iProcNum )
-{
-	int         iSockFd;
-    int         nRetSetOpt;
-    int         nRetBnd;
-    int         nOne;
-    struct  sockaddr_in rServaddr;
-    pid_t       pid;
-
-    memset(&rServaddr, 0, sizeof(rServaddr));
-    rServaddr.sin_family = AF_INET;
-    rServaddr.sin_port   = htons(ui16Port);
-
-    if ( sHost.empty() )
-    {
-        rServaddr.sin_addr.s_addr = htonl(INADDR_ANY);	//	监听本机所有网卡(ip地址)上的port端口
-    }
-    else
-    {
-        rServaddr.sin_addr.s_addr = inet_addr(sHost.c_str());
-    }
-    if ( (iSockFd = socket(AF_INET, SOCK_STREAM, 0)) < 0 )	//	创建套接字
-    {
-    	printf("create socket failed, errmsg:%s\n", strerror(errno) );
-        return -1;
-    }
-    // if ( SetSockNonBlock(iSockFd) < 0 )						//	设置为非阻塞模式
-    // {
-    //     close(iSockFd);
-    //     return -1;
-    // }
-    if ( 0 != iSockOpt )
-    {
-    	nOne = 1;
-	    if ( (nRetSetOpt = setsockopt(iSockFd, SOL_SOCKET, iSockOpt, (char *) & nOne, sizeof(nOne))) != 0 )	//	开启标志选项 - SO_REUSEADDR 这个套接字选项通知内核，如果端口忙，但TCP状态位于 TIME_WAIT ，可以重用端口。如果端口忙，而TCP状态位于其他状态，重用端口时依旧得到一个错误信息，指明"地址已经使用中"。如果你的服务程序停止后想立即重启，而新套接字依旧使用同一端口，此时SO_REUSEADDR 选项非常有用
-	    {
-	    	printf("setsockopt failed, errmsg:%s\n", strerror(errno) );
-	        close(iSockFd);
-	        return -1;
-	    }
-    }
-    
-    if ( (nRetBnd = bind(iSockFd, (struct sockaddr*) & rServaddr, sizeof(rServaddr))) < 0 )
-    {
-    	printf("bind failed, errmsg:%s\n", strerror(errno) );
-        close(iSockFd);
-        return -1;
-    }
-    
-    if ( listen(iSockFd, MAX_SOCKQUEUE_LEN) < 0 )		//	监听套接字连接队列大小  未完成连接队列(SYN_REVD状态) + 已完成连接队列(ESTABLISHED状态)
-    {
-        close(iSockFd);
-        return -1;
-    }
-    
-
-    int             iConnFd;
-    struct sockaddr_in rCliAddr;
-    socklen_t       nLenCliAddr = sizeof(rCliAddr);
-    char            szBuf[128] = {'\0'};
-    for ( int i = 0; i < iProcNum; ++i )
-    {
-    	pid = fork();
-    	if ( 0 == pid )
-    	{
+			printf("Enter to bind\n");
     		if ( (nRetBnd = bind(iSockFd, (struct sockaddr*) & rServaddr, sizeof(rServaddr))) < 0 )
 		    {
 		    	printf("bind failed, errmsg:%s\n", strerror(errno) );

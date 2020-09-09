@@ -19,6 +19,8 @@ BIN_BFS = bfs
 BIN_DFS = dfs
 BIN_BM = bm
 BIN_HUFFMAN = huffman
+BIN_DP_KNAPSACK = dp_knapsack
+BIN_TEST_ACCEPT_QUEUE_OVERFLOW = test_accept_queue_overflow
 
 # obj
 OBJ_TIMER_TEST = timer_test.o
@@ -34,8 +36,10 @@ OBJ_BFS = bfs.o
 OBJ_DFS = dfs.o
 OBJ_BM = bm.o
 OBJ_HUFFMAN = huffman.o
+OBJ_DP_KNAPSACK = knapsack_problem.o
+OBJ_TEST_ACCEPT_QUEUE_OVERFLOW = test_accept_queue_overflow.o
 
-VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/:leetcode/graph:leetcode/string_match:leetcode/greedy
+VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/:leetcode/graph:leetcode/string_match:leetcode/greedy:leetcode/dp:network
 
 #
 %.o: %.cpp
@@ -54,7 +58,9 @@ $(BIN_PERCENT)\
 $(BIN_BFS)\
 $(BIN_DFS)\
 $(BIN_BM)\
-$(BIN_HUFFMAN)
+$(BIN_HUFFMAN)\
+$(BIN_DP_KNAPSACK)\
+$(BIN_TEST_ACCEPT_QUEUE_OVERFLOW)
 
 all:$(OUT_PUT)
 
@@ -95,6 +101,12 @@ $(BIN_BM): $(OBJ_BM)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 $(BIN_HUFFMAN): $(OBJ_HUFFMAN)
+	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
+
+$(BIN_DP_KNAPSACK): $(OBJ_DP_KNAPSACK)
+	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
+
+$(BIN_TEST_ACCEPT_QUEUE_OVERFLOW): $(OBJ_TEST_ACCEPT_QUEUE_OVERFLOW)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 .PHONY: clean all
