@@ -21,6 +21,7 @@ BIN_BM = bm
 BIN_HUFFMAN = huffman
 BIN_DP_KNAPSACK = dp_knapsack
 BIN_TEST_ACCEPT_QUEUE_OVERFLOW = test_accept_queue_overflow
+BIN_TEST_FALSE_SHARING = test_false_sharing
 
 # obj
 OBJ_TIMER_TEST = timer_test.o
@@ -38,6 +39,7 @@ OBJ_BM = bm.o
 OBJ_HUFFMAN = huffman.o
 OBJ_DP_KNAPSACK = knapsack_problem.o
 OBJ_TEST_ACCEPT_QUEUE_OVERFLOW = test_accept_queue_overflow.o
+OBJ_TEST_FALSE_SHARING = test_false_sharing.o
 
 VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/:leetcode/graph:leetcode/string_match:leetcode/greedy:leetcode/dp:network
 
@@ -60,7 +62,8 @@ $(BIN_DFS)\
 $(BIN_BM)\
 $(BIN_HUFFMAN)\
 $(BIN_DP_KNAPSACK)\
-$(BIN_TEST_ACCEPT_QUEUE_OVERFLOW)
+$(BIN_TEST_ACCEPT_QUEUE_OVERFLOW)\
+$(BIN_TEST_FALSE_SHARING)
 
 all:$(OUT_PUT)
 
@@ -107,6 +110,9 @@ $(BIN_DP_KNAPSACK): $(OBJ_DP_KNAPSACK)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 $(BIN_TEST_ACCEPT_QUEUE_OVERFLOW): $(OBJ_TEST_ACCEPT_QUEUE_OVERFLOW)
+	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
+
+$(BIN_TEST_FALSE_SHARING): $(OBJ_TEST_FALSE_SHARING)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 .PHONY: clean all
