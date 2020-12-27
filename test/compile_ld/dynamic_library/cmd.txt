@@ -1,0 +1,3 @@
+g++ -shared -Wl,-soname,libutils.so.1 -o libutils.so.1.0.1 min.o max.o
+g++ -o main_dl main_dl.cpp -ldl
+readelf -s libutils.so.1.0.1 | grep min
