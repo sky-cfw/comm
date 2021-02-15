@@ -1,5 +1,7 @@
-g++ -fPIC -g -c -Wall -c min.cpp
+g++ -fPIC -g -c -Wall min.cpp
 g++ -g -shared -Wl,-soname,libmin.so.1 -o libmin.so.1.0.1 min.o
+ln -s libmin.so.1.0.1 libmin.so.1
+ln -s libmin.so.1 libmin.so
 g++ -o main main.cpp -L. libmin.so.1.0.1
 export LD_LIBRARY_PATH=.
 ln -s libmin.so.1.0.1 libmin.so.1
@@ -8,3 +10,6 @@ ln -s libmin.so.1.0.1 libmin.so.1
 
 ln -s libmin.so.1 libmin.so
 g++ -o main_sr main_sr.cpp -L. -lmin
+./main_sr
+
+g++ -g -Bsymbolic -o main_sr main_sr.cpp -L. -lmin

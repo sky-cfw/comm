@@ -1,0 +1,10 @@
+g++ -g -c -fPIC -Wall max_plus.cpp -o max_plus_fpic.o
+g++ -g -c -fPIC -Wall min_plus.cpp -o min_plus_fpic.o
+g++ -g -shared -Wl,-soname,libmax_plus.so.1 -o libmax_plus.so.1.0.1 max_plus_fpic.o
+g++ -g -shared -Wl,-soname,libmin_plus.so.1 -o libmin_plus.so.1.0.1 min_plus_fpic.o
+ln -s libmax_plus.so.1.0.1 libmax_plus.so.1
+ln -s libmin_plus.so.1.0.1 libmin_plus.so.1
+ln -s libmax_plus.so.1 libmax_plus.so
+ln -s libmin_plus.so.1 libmin_plus.so
+g++ -g -o main main.cpp -L. -lmax_plus -lmin_plus
+./main

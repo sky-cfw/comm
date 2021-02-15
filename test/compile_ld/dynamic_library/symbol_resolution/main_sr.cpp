@@ -2,7 +2,7 @@
 #include "min.h"
 using namespace std;
 
-int min(int x, int y)
+int /*__attribute__ ((visibility("hidden")))*/ intmin(int x, int y)
 {
 	cout << endl << "this is main's min " << endl;
 	return (x < y) ? x : y;
