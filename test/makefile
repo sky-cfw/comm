@@ -3,7 +3,7 @@ INCLUDE = -I${PLAT_COMM_PATH}/comm/utils
 
 # LIB
 LIB = -lpthread -lrt \
--L$(PLAT_COMM_PATH)/comm/libs -lmurmur_hash3 -lheap
+-L$(PLAT_COMM_PATH)/comm/libs -lmurmur_hash3 -lheap -ltime_wheel
 
 # bin
 BIN_TIMER_TEST = timer_test
@@ -22,6 +22,7 @@ BIN_HUFFMAN = huffman
 BIN_DP_KNAPSACK = dp_knapsack
 BIN_TEST_ACCEPT_QUEUE_OVERFLOW = test_accept_queue_overflow
 BIN_TEST_FALSE_SHARING = test_false_sharing
+BIN_TIME_WHEEL_TEST = time_wheel_test
 
 # obj
 OBJ_TIMER_TEST = timer_test.o
@@ -40,6 +41,7 @@ OBJ_HUFFMAN = huffman.o
 OBJ_DP_KNAPSACK = knapsack_problem.o
 OBJ_TEST_ACCEPT_QUEUE_OVERFLOW = test_accept_queue_overflow.o
 OBJ_TEST_FALSE_SHARING = test_false_sharing.o
+OBJ_TIME_WHEEL_TEST = time_wheel_test.o
 
 VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/:leetcode/graph:leetcode/string_match:leetcode/greedy:leetcode/dp:network
 
@@ -63,7 +65,8 @@ $(BIN_BM)\
 $(BIN_HUFFMAN)\
 $(BIN_DP_KNAPSACK)\
 $(BIN_TEST_ACCEPT_QUEUE_OVERFLOW)\
-$(BIN_TEST_FALSE_SHARING)
+$(BIN_TEST_FALSE_SHARING)\
+$(BIN_TIME_WHEEL_TEST)
 
 all:$(OUT_PUT)
 
@@ -113,6 +116,9 @@ $(BIN_TEST_ACCEPT_QUEUE_OVERFLOW): $(OBJ_TEST_ACCEPT_QUEUE_OVERFLOW)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 $(BIN_TEST_FALSE_SHARING): $(OBJ_TEST_FALSE_SHARING)
+	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
+
+$(BIN_TIME_WHEEL_TEST): $(OBJ_TIME_WHEEL_TEST)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 .PHONY: clean all

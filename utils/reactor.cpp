@@ -203,9 +203,9 @@ int CEpollReactor::RunEventLoop()
 
 		for ( int i = 0; i < iReadyFds; i++ )
 		{
-			if ( EPOLLIN == (pEvents[i].events & EPOLLIN) )
+			if ( EPOLLIN == (pEvents[i].events & EPOLLIN) )//单定时器多任务调度会有阻塞问题，后一个任务必需等待前一个任务执行完才能执行,定时器只做任务触发，执行由线程池来执行?
 			{
-				i64ReadBytes = NonBlockRead( pEvents[i].data.fd, sizeof( uint64_t ), szRecvBuff );
+				i64ReadBytes = NonBlockRead( pEvents[i].data.fd, sizeof( uint64_t ), szRecvBuff );//返回的是上一次到这一次read期间发生的超时次数
 				if ( sizeof( uint64_t ) != i64ReadBytes )
 				{
 					printf( "NonBlockRead failed, read size:%lld, expect size:%lu", i64ReadBytes, sizeof(uint64_t) );

@@ -28,6 +28,27 @@ void mySqrt(double y, int n)
 	printf( "n=%f, sqrt(%f) = %f\n", pow(10,-n), y, mid );
 }
 
+void mySqrt2(double y, int n)
+{
+	double low=0.0f, high = y, mid=low+((high-low)/2), last=0.0f;
+	printf("\n\nlow=%f, high=%f, mid=%f\n", low, high, mid);
+	while (fabs(mid-last) > pow(10, -n) )
+	{
+		if ( mid * mid > y )
+		{
+			high = mid;
+		}
+		else
+		{
+			low = mid;
+		}
+		last = mid;
+		mid = low + ( (high-low)/2 );
+
+		printf( "low=%f, high=%f, mid=%f\n", low, high, mid );
+	}
+}
+
 int main(int argc, char const *argv[])
 {
 	if ( 3 != argc )
@@ -39,6 +60,7 @@ int main(int argc, char const *argv[])
 	double y = atof( argv[1] );
 	int n = atoi( argv[2] );
 	mySqrt( y, n );
+	mySqrt2( y, n );
 
 	return 0;
 }
