@@ -3,6 +3,7 @@
 #include "thread_lock.h"
 using namespace std;
 
+template<class T>
 class CSingleton
 {
 	private:
@@ -11,14 +12,14 @@ class CSingleton
 		const CSingleton & operator = ( const CSingleton &rhs);//防止外部通过赋值操作符来构造类的实例
 	public:
 		~CSingleton() {}//保证类的实例能够正常释放
-		static CSingleton *GetInstance()
+		static T *GetInstance()
 		{
 			if ( NULL == m_pInstance )
 			{
 				CThreadAutoLock Lock(&m_cThreadExclusiveLock );
 				if ( NULL == m_pInstance )	
 				{
-					CSingleton *pTmp = new CSingleton();
+					T *pTmp = new T();
 					//barrier
 
 					m_pInstance = pTmp;
@@ -33,14 +34,26 @@ class CSingleton
 		}
 
 	public:
-		static CSingleton *m_pInstance;
+		static T *m_pInstance;
 		static CThreadExclusiveLock m_cThreadExclusiveLock;
 };
 
-CSingleton* CSingleton::m_pInstance = NULL;
-CThreadExclusiveLock CSingleton::m_cThreadExclusiveLock;
+template<class T> T* CSingleton<T>::m_pInstance = NULL;
+template<class T> CThreadExclusiveLock CSingleton<T>::m_cThreadExclusiveLock;
 
-#define SINGLETON CSingleton::GetInstance()
+class CTest
+{
+	public:
+		CTest() {}
+		~CTest() {}
+
+		void Log( const std::string &sMsg )
+		{
+			cout << sMsg.c_str() << this << endl;
+		}
+};
+
+#define SINGLETON CSingleton<CTest>::GetInstance()
 
 
 void *thread_fun_1(void *arg)

@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+template<class T>
 class CSingleton
 {
 	private:
@@ -9,9 +10,9 @@ class CSingleton
 		const CSingleton & operator = ( const CSingleton &rhs);//防止外部通过赋值操作符来构造类的实例
 	public:
 		~CSingleton() {}//保证类的实例能够正常释放
-		static CSingleton *GetInstance()
+		static T *GetInstance()
 		{
-			static CSingleton cSingleton;
+			static T cSingleton;
 			return &cSingleton;
 		}
 
@@ -22,8 +23,20 @@ class CSingleton
 };
 
 
-#define SINGLETON CSingleton::GetInstance()
 
+class CTest
+{
+	public:
+		CTest() {}
+		~CTest() {}
+
+		void Log( const std::string &sMsg )
+		{
+			cout << sMsg.c_str() << endl;
+		}
+};
+
+#define SINGLETON CSingleton<CTest>::GetInstance()
 
 int main()
 {
