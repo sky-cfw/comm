@@ -21,7 +21,7 @@ class CSingleton
 				{
 					T *pTmp = new T();
 					//barrier
-
+					__sync_synchronize;
 					m_pInstance = pTmp;
 				}
 			}
@@ -38,8 +38,8 @@ class CSingleton
 		static CThreadExclusiveLock m_cThreadExclusiveLock;
 };
 
-template<class T> T* CSingleton<T>::m_pInstance = NULL;
-template<class T> CThreadExclusiveLock CSingleton<T>::m_cThreadExclusiveLock;
+template<class T> T* CSingleton<T>::m_pInstance = NULL;//重点关注写法
+template<class T> CThreadExclusiveLock CSingleton<T>::m_cThreadExclusiveLock;//重点关注写法
 
 class CTest
 {
