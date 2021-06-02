@@ -37,7 +37,7 @@ class CTest
 };
 
 #define SINGLETON CSingleton<CTest>::GetInstance()
-
+SINGLETON;
 int main()
 {
 	SINGLETON->Log( "hungry singleon!" );
