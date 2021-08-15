@@ -1,24 +1,20 @@
 
+#SUB_DIRS=$(shell find . -maxdepth 1 -type d | shell grep -vE "\.$")
 
-VPATH=observer_pattern/
+SUB_DIRS = observer_pattern strategy_pattern
 
-# BIN
-BIN_OBSERVER_PATTERN = observer_pattern_bin
+all:
+	@for sub_dir in $(SUB_DIRS);\
+	do\
+		echo "deal " $$sub_dir "...";\
+		cd $$sub_dir && make clean && make && cd -;\
+	done
 
-# OBJ
-OBJ_OBSERVER_PATTERN = subject.o observer.o concrete_subject.o concrete_observer.o main.o
-
-%.o: %.cpp
-	g++ $(INCLUDE) -c -o $@ $< -Wno-deprecated
-
-# output
-OUT_PUT = $(BIN_OBSERVER_PATTERN)
-
-all:$(OUT_PUT)
-
-$(BIN_OBSERVER_PATTERN): $(OBJ_OBSERVER_PATTERN)
-	g++ -Wall -g -o $@ $^ $(LIB) -Wno-deprecated
+clean:
+	@for sub_dir in $(SUB_DIRS);\
+	do\
+		echo "Cleaning " $$sub_dir "...";\
+		cd $$sub_dir && make clean && cd -;\
+	done
 
 .PHONY: clean all
-clean:
-	rm -f *.o $(OUT_PUT)
