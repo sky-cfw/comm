@@ -1,9 +1,4 @@
-# INC
-INCLUDE = -I${PLAT_COMM_PATH}/comm/utils
-
-# LIB
-LIB = -lpthread -lrt \
--L$(PLAT_COMM_PATH)/comm/libs -lmurmur_hash3 -lheap -ltime_wheel
+include inc.mk
 
 # bin
 BIN_TIMER_TEST = timer_test
@@ -42,8 +37,6 @@ OBJ_DP_KNAPSACK = knapsack_problem.o
 OBJ_TEST_ACCEPT_QUEUE_OVERFLOW = test_accept_queue_overflow.o
 OBJ_TEST_FALSE_SHARING = test_false_sharing.o
 OBJ_TIME_WHEEL_TEST = time_wheel_test.o
-
-VPATH=../utils/:performance/:leetcode/:leetcode/hash/:leetcode/heap/:leetcode/graph:leetcode/string_match:leetcode/greedy:leetcode/dp:network
 
 #
 %.o: %.cpp
