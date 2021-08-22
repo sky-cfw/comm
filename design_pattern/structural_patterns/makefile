@@ -1,7 +1,4 @@
-
-#SUB_DIRS=$(shell find . -maxdepth 1 -type d | shell grep -vE "\.$")
-
-SUB_DIRS = observer_pattern strategy_pattern template_method
+SUB_DIRS = adapter_pattern
 
 all:
 	@for sub_dir in $(SUB_DIRS);\

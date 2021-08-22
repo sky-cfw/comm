@@ -1,11 +1,10 @@
-
-#SUB_DIRS=$(shell find . -maxdepth 1 -type d | shell grep -vE "\.$")
-
-SUB_DIRS = observer_pattern strategy_pattern template_method
+SUB_DIRS = behavioural_patterns creational_patterns structural_patterns
 
 all:
 	@for sub_dir in $(SUB_DIRS);\
 	do\
+		work_dir = `pwd`\
+		echo "current work dir $work_dir"\
 		echo "deal " $$sub_dir "...";\
 		cd $$sub_dir && make clean && make && cd ..;\
 	done
