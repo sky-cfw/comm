@@ -1,12 +1,12 @@
 #include "adapter.h"
 #include <stdio.h>
 
-CAdapter::CAdapter( CAdaptee *pAdaptee )
+CObjectAdapter::CObjectAdapter( CAdaptee *pAdaptee )
 {
     m_pAdaptee = pAdaptee;
 }
 
-CAdapter::~CAdapter()
+CObjectAdapter::~CObjectAdapter()
 {
     if ( NULL != m_pAdaptee )
     {
@@ -15,7 +15,7 @@ CAdapter::~CAdapter()
     }
 }
 
-int CAdapter::DoSomething2()
+int CObjectAdapter::DoSomething1()
 {
     m_pAdaptee->DoSomething1();
     Transform();
@@ -24,7 +24,28 @@ int CAdapter::DoSomething2()
     return 0;
 }
 
-int CAdapter::Transform()
+int CObjectAdapter::Transform()
+{
+    printf("transform 220V to 5V\n");
+    
+    return 0;
+}
+
+CClassAdapter::~CClassAdapter()
+{
+
+}
+
+int CClassAdapter::DoSomething1()
+{
+    CAdaptee::DoSomething1();
+    Transform();
+    printf("output 5V\n");
+
+    return 0;
+}
+
+int CClassAdapter::Transform()
 {
     printf("transform 220V to 5V\n");
     

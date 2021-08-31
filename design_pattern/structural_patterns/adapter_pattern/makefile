@@ -2,7 +2,7 @@
 BIN_ADAPTER_PATTERN = adapter_pattern_bin
 
 # OBJ
-OBJ_ADAPTER_PATTERN = adaptee.o adapter.o target.o context.o main.o
+OBJ_ADAPTER_PATTERN = adaptee.o adapter.o target.o client.o main.o
 
 %.o: %.cp
 	g++ $(INCLUDE) -c -o $@ $< -Wno-deprecated

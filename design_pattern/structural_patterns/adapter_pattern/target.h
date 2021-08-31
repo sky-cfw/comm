@@ -5,7 +5,7 @@
 class CTarget
 {
 public:
-    virtual int DoSomething2() = 0;
+    virtual int DoSomething1() = 0;
 };
 
 #endif

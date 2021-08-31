@@ -1,10 +1,10 @@
-#ifndef CONTEXT_H
-#define CONTEXT_H
+#ifndef CLIENT_H
+#define CLIENT_H
 
 #include "adapter.h"
 
 //使用适配器的上下文
-class CContext
+class CClient
 {
 public:
     int DoSomething();

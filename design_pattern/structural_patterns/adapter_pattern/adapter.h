@@ -4,19 +4,32 @@
 #include "target.h"
 #include "adaptee.h"
 
-class CAdapter : public CTarget
+//对象适配器
+class CObjectAdapter : public CTarget
 {
 public:
-    CAdapter(CAdaptee *pAdaptee);
-    virtual ~CAdapter();
+    CObjectAdapter(CAdaptee *pAdaptee);//对象适配器，通过组合 被适配对象 的方式，更灵活的实现适配
+    virtual ~CObjectAdapter();
 
-    int DoSomething2();
+    int DoSomething1();
 
 private:
     int Transform();
 
 private:
     CAdaptee *m_pAdaptee;
+};
+
+//类适配器
+class CClassAdapter : public CTarget, public CAdaptee 
+{
+public:
+    virtual ~CClassAdapter();
+
+    int DoSomething1();
+
+private:
+    int Transform();
 };
 
 #endif
