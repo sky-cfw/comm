@@ -16,6 +16,10 @@ public:
     void Operator2();
 
 private:
+    void PreProcess();
+    void PostProcess();
+
+private:
     CSubject *m_pCSubject;//通过组合的方式，
 };
 

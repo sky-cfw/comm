@@ -7,20 +7,34 @@ m_pCSubject( pCSubject )
     
 }
 
-void CProxy::Operator1()
+void CProxy::PreProcess()
 {
     printf("pre process something\n");
+
+    return ;
+}
+
+void CProxy::PostProcess()
+{
+    printf("post process something\n");
+
+    return ;
+}
+
+void CProxy::Operator1()
+{
+    PreProcess();
     m_pCSubject->Operator1();//委托
-    printf("after process something\n");
+    PostProcess();
 
     return ;
 }
 
 void CProxy::Operator2()
 {
-    printf("pre process something\n");
+    PreProcess();
     m_pCSubject->Operator2();//委托
-    printf("after process something\n");
+    PostProcess();
 
     return ;
 }

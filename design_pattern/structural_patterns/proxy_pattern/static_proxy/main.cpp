@@ -8,20 +8,12 @@
 * History:					  
                          1. Date:          2. Author:         3. Modification:
 **********************************************************************************************************/
-#include <stdio.h>
-#include "proxy.h"
-#include "real_subject.h"
+#include "client.h"
 
 int main(int argc, char const *argv[])
 {
-    CSubject *pCSubject = new CRealSubject();
-    
-    CProxy *pCProxy = new CProxy( pCSubject );//依赖注入
-    pCProxy->Operator1();
-    pCProxy->Operator2();
-
-    delete pCProxy;
-    pCProxy = NULL;
+    CClient cClient;
+    cClient.DoSomething();
 
     return 0;
 }
