@@ -1,4 +1,4 @@
-SUB_DIRS = adapter_pattern
+SUB_DIRS = adapter_pattern decorator_pattern proxy_pattern
 
 all:
 	@for sub_dir in $(SUB_DIRS);\
