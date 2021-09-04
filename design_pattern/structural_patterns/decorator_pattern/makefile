@@ -2,7 +2,7 @@
 BIN_DECORATOR = decorator_bin
 
 # OBJ
-OBJ_DECORATOR = subject.o concrete_subject.o decorator.o client.o main.o
+OBJ_DECORATOR = subject.o concrete_subject.o decorator.o concrete_decorator.o client.o main.o
 
 %.o: %.cp
 	g++ $(INCLUDE) -c -o $@ $< -Wno-deprecated
