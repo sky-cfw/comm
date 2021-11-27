@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+//关于文件I/O参考：https://app.yinxiang.com/shard/s55/nl/10870108/3bf69fe7-4268-49b4-8971-f426440be1b6/
 int main(int argc, char const *argv[])
 {
     if ( argc < 2 )
