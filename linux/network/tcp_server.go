@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-01-15 23:18:16
- * @LastEditTime: 2022-02-07 18:41:35
+ * @LastEditTime: 2022-02-07 19:17:14
  * @LastEditors: Please set LastEditors
  * @Description: tcp监听服务器
  * @FilePath: /comm/linux/network/tcp_server.go
@@ -34,19 +34,22 @@ func main() {
 	ls, err := net.Listen("tcp", "127.0.0.1:8080")
 	if err != nil {
 		fmt.Println("err listen", err.Error())
+		return
 	}
 
-	sum := 0 //短变量声明
+	cnt := 0 //短变量声明
 
 	for {
 		_, err := ls.Accept()
 		if err != nil {
 			fmt.Println("err accept", err.Error())
+			fmt.Println("recv conn total num", cnt)
+			return
 		}
 
-		sum++
-		if 0 == sum%10000 {
-			fmt.Println("accept", sum)
+		cnt++
+		if 0 == cnt%10000 {
+			fmt.Println("accept", cnt)
 		}
 	}
 }
