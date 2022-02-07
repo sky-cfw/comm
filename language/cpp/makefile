@@ -1,4 +1,4 @@
-SUB_DIRS = difference_malloc_new
+SUB_DIRS = compile function memory_alloc pointer
 
 all:
 	@for sub_dir in $(SUB_DIRS);\
