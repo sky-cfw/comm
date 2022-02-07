@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-01-15 23:18:16
- * @LastEditTime: 2022-02-07 19:17:14
+ * @LastEditTime: 2022-02-07 23:19:00
  * @LastEditors: Please set LastEditors
  * @Description: tcp监听服务器
  * @FilePath: /comm/linux/network/tcp_server.go
@@ -11,6 +11,7 @@ package main
 import (
 	"fmt"
 	"net"
+	"os"
 	"runtime"
 	// log "github.com/sirupsen/logrus"
 )
@@ -29,9 +30,16 @@ import (
 
 func main() {
 	fmt.Println(runtime.Version())
-	fmt.Println("starting the server")
+	argc := len(os.Args)
+	if argc < 2 {
+		fmt.Println("usage: ./tcp_server <port>")
+		return
+	}
 
-	ls, err := net.Listen("tcp", "127.0.0.1:8080")
+	//
+	fmt.Println("starting the server")
+	addr := ":" + os.Args[1]
+	ls, err := net.Listen("tcp", addr)
 	if err != nil {
 		fmt.Println("err listen", err.Error())
 		return
@@ -48,8 +56,6 @@ func main() {
 		}
 
 		cnt++
-		if 0 == cnt%10000 {
-			fmt.Println("accept", cnt)
-		}
+		fmt.Println("conn num", cnt)
 	}
 }
