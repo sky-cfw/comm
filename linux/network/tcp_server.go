@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-01-15 23:18:16
- * @LastEditTime: 2022-02-08 14:07:08
+ * @LastEditTime: 2022-02-08 14:15:42
  * @LastEditors: Please set LastEditors
  * @Description: tcp监听服务器
  * @FilePath: /comm/linux/network/tcp_server.go
@@ -34,7 +34,8 @@ func init() {
 	log.SetFlags(log.Lshortfile | log.LstdFlags | log.Lmicroseconds)
 
 	//设置输出位置
-	logFile, err := os.OpenFile("./tcp_client_c10k.log", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
+	fileName := "./" + os.Args[0] + ".log"
+	logFile, err := os.OpenFile(fileName, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
 	if err != nil {
 		log.Panic("打开日志文件异常")
 		return
