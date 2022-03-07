@@ -18,6 +18,7 @@ BIN_DP_KNAPSACK = dp_knapsack
 BIN_TEST_ACCEPT_QUEUE_OVERFLOW = test_accept_queue_overflow
 BIN_TEST_FALSE_SHARING = test_false_sharing
 BIN_TIME_WHEEL_TEST = time_wheel_test
+BIN_TEST_LOCAL_SEQ_GENERATOR = local_seq_generator_test
 
 # obj
 OBJ_TIMER_TEST = timer_test.o
@@ -37,6 +38,7 @@ OBJ_DP_KNAPSACK = knapsack_problem.o
 OBJ_TEST_ACCEPT_QUEUE_OVERFLOW = test_accept_queue_overflow.o
 OBJ_TEST_FALSE_SHARING = test_false_sharing.o
 OBJ_TIME_WHEEL_TEST = time_wheel_test.o
+OBJ_TEST_LOCAL_SEQ_GENERATOR = test_local_seq_generator.o
 
 #
 %.o: %.cpp
@@ -59,7 +61,8 @@ $(BIN_HUFFMAN)\
 $(BIN_DP_KNAPSACK)\
 $(BIN_TEST_ACCEPT_QUEUE_OVERFLOW)\
 $(BIN_TEST_FALSE_SHARING)\
-$(BIN_TIME_WHEEL_TEST)
+$(BIN_TIME_WHEEL_TEST)\
+$(BIN_TEST_LOCAL_SEQ_GENERATOR)
 
 all:$(OUT_PUT)
 
@@ -112,6 +115,9 @@ $(BIN_TEST_FALSE_SHARING): $(OBJ_TEST_FALSE_SHARING)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 $(BIN_TIME_WHEEL_TEST): $(OBJ_TIME_WHEEL_TEST)
+	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
+
+$(BIN_TEST_LOCAL_SEQ_GENERATOR): $(OBJ_TEST_LOCAL_SEQ_GENERATOR)
 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 .PHONY: clean all
