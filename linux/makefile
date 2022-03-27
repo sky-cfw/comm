@@ -1,4 +1,4 @@
-SUB_DIRS = file_io 
+SUB_DIRS = file_io memory 
 
 all:
 	@for sub_dir in $(SUB_DIRS);\
