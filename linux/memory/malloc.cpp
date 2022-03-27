@@ -1,7 +1,7 @@
 /*
  * @Author: sky
  * @Date: 2022-03-19 22:04:31
- * @LastEditTime: 2022-03-27 13:42:24
+ * @LastEditTime: 2022-03-27 14:14:15
  * @LastEditors: Please set LastEditors
  * @Description: malloc 内存分配原理
  * @FilePath: /comm/linux/memory/malloc.cpp
@@ -20,6 +20,7 @@ int main(int argc, char const *argv[])
 {
     //申请1字节的内存空间
     void *addr = malloc(1);
+    //void *addr = malloc(127*1024);
     //void *addr = malloc( 128*1024 );
     printf( "此1字节的内存起始地址为: %p\n", addr );
     printf( "使用 cat /proc/%d/maps查看内存分配\n", getpid() );
@@ -32,5 +33,13 @@ int main(int argc, char const *argv[])
     printf( "释放了1字节的堆内存，但并不会归还给操作系统\n" );
     getchar();
 
+    //申请1字节的内存空间
+    addr = malloc(1);
+    //addr = malloc( 127*1024 );
+    //addr = malloc( 128*1024 );
+    printf( "此1字节的内存起始地址为: %p\n", addr );
+    printf( "使用 cat /proc/%d/maps查看内存分配\n", getpid() );
+    getchar();
+    
     return 0;
 }
