@@ -1,6 +1,6 @@
 
 # 编译器
-CXX = gcc
+CXX = g++
 
 # 编译选项
 CFLAGS = -Wall -g
