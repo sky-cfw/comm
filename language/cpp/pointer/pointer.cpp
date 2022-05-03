@@ -1,8 +1,8 @@
 /*
  * @Author: sky
  * @Date: 2021-12-24 22:26:43
- * @LastEditTime: 2021-12-24 23:17:29
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-03 00:13:30
+ * @LastEditors: sky wcf0118@gmail.com
  * @Description: 指针操作（取地址 & 与解引用 *)对应的汇编指令
  * @FilePath: /comm/language/cpp/pointer/pointer.cpp
  */
@@ -14,6 +14,7 @@ int main(int argc, char const *argv[])
     const int* const npA = &n;
     int* npB = &n;
     *npB = 20;
+	printf( "the address of n: [%p]\n", npB );
     printf( "The value n is [%d]\n", n );
     printf( "Are They npA npB is the same [%d]\n", (npA == npB) );
 

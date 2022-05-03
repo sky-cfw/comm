@@ -1,11 +1,14 @@
+include $(COMM_BASE_PATH)/inc.v1.mk
+
 # BIN
 BIN_POINTER = pointer_bin 
 
 # OBJ
 OBJ_POINTER = pointer.o
 
-%.o: %.cp
-	$(CXX) $(INCLUDE) -c -o $@ $< -Wno-deprecated
+INCLUDE = -I.
+LIBPATH = 
+LIBS = 
 
 # output
 OUT_PUT = $(BIN_POINTER)
@@ -13,7 +16,7 @@ OUT_PUT = $(BIN_POINTER)
 all:$(OUT_PUT)
 
 $(BIN_POINTER): $(OBJ_POINTER)
-	g++ -Wall -g -o $@ $^ $(LIB) -Wno-deprecated
+	$(CXX) $(CFLAGS) $(INCLUDE) -o $@ $^ $(LIBPATH) $(LIBS)
 
 .PHONY: clean all
 clean:
