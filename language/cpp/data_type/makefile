@@ -8,9 +8,9 @@ BIN_EMPTY_CLASS = empty_class_bin
 OBJ_DATA_TYPE_SIZE = data_type_size.o
 OBJ_EMPTY_CLASS = empty_class.o
 
-INCLUDE = 
-LIBPATH = 
-LIBS = 
+INCLUDE = -I. -I$(COMM_BASE_PATH)/utils
+LIBPATH = -L$(LIBS_DIR)
+LIBS = -lprint_memory_layout
 
 # output
 OUT_PUT = $(BIN_DATA_TYPE_SIZE) $(BIN_EMPTY_CLASS)
