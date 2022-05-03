@@ -25,4 +25,4 @@ $(BIN_EMPTY_CLASS): $(OBJ_EMPTY_CLASS)
 
 .PHONY: clean all
 clean:
-	rm -f *.o $(OUT_PUT)
+	rm -f *.o $(OUT_PUT) *.out

@@ -60,4 +60,4 @@ $(BIN_THREAD_LOCK): $(OBJ_THREAD_LOCK)
 
 .PHONY: clean all
 clean:
-	rm -f *.o $(OUT_PUT) $(LIBS_DIR)/*
+	rm -f *.o $(OUT_PUT)
