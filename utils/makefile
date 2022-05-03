@@ -1,9 +1,13 @@
+include $(COMM_BASE_PATH)/inc.v1.mk
+
+CREATE_DIR = create_dir
+
 # INC
-INCLUDE = -I${PLAT_COMM_PATH}/comm/utils
+INCLUDE = -I.
 
 # LIB
-LIB = -lpthread -lrt \
--L$(PLAT_COMM_PATH)/comm/libs -lmurmur_hash3 -lheap
+LIBPATH = -L$(LIBS_DIR)
+LIBS = -lpthread -lrt
 
 # bin
 BIN_MURMUR_HASH = libmurmur_hash3.a
@@ -20,12 +24,6 @@ OBJ_BLOOM_FILTER = bloom_filter.o
 OBJ_TIME_WHEEL = time_wheel.o tlog.o
 OBJ_THREAD_LOCK = thread_lock.o
 
-VPATH=.:../test/leetcode/heap
-
-#
-%.o: %.cpp
-	g++ $(INCLUDE) -c -o $@ $< -Wno-deprecated
-
 # output
 OUT_PUT = $(BIN_MURMUR_HASH) \
 		  $(BIN_HEAP) \
@@ -33,27 +31,33 @@ OUT_PUT = $(BIN_MURMUR_HASH) \
 		  $(BIN_TIME_WHEEL)\
 		  $(BIN_THREAD_LOCK)
 
-all:$(OUT_PUT)
-	cp $(OUT_PUT) ../libs/
+
+# 对于同名文件而言，无论是否指定 -f 选项，cp都会强制覆盖已存在同名文件
+all: $(CREATE_DIR) $(OUT_PUT)
+	cp -f $(OUT_PUT) $(LIBS_DIR) 
+
+# test -d $(LIBS_DIR) || mkdir $(LIBS_DIR) 表示检查 LIBS_DIR 目录是否存在，如果不存在则执行第二个语句创建这个目录
+create_dir:
+	test -d $(LIBS_DIR) || mkdir $(LIBS_DIR)
 
 $(BIN_MURMUR_HASH): $(OBJ_MURMUR_HASH)
-	ar -crl $@ $^
+	$(AR) $(ARFLAG) $@ $^
 
 $(BIN_HEAP): $(OBJ_HEAP)
-	ar -crl $@ $^
+	$(AR) $(ARFLAG) $@ $^
 
 $(BIN_BLOOM_FILTER): $(OBJ_BLOOM_FILTER)
-	ar -crl $@ $^
+	$(AR) $(ARFLAG) $@ $^
 
 # $(BIN_BLOOM_FILTER): $(OBJ_BLOOM_FILTER)
 # 	g++ -Wall -g -fPIC -o $@ $^ $(LIB) -Wno-deprecated
 
 $(BIN_TIME_WHEEL): $(OBJ_TIME_WHEEL)
-	ar -crl $@ $^
+	$(AR) $(ARFLAG) $@ $^
 
 $(BIN_THREAD_LOCK): $(OBJ_THREAD_LOCK)
-	ar -crl $@ $^
+	$(AR) $(ARFLAG) $@ $^
 
 .PHONY: clean all
 clean:
-	rm -f *.o $(OUT_PUT)
+	rm -f *.o $(OUT_PUT) $(LIBS_DIR)/*
