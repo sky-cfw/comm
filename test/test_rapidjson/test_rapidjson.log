@@ -1,0 +1,47 @@
+[2022-05-28 23:08:40.169.880][pid:3159][test_rapidjson.cpp:64][main] MSG: start
+[2022-05-28 23:08:40.169.980][pid:3159][test_rapidjson.cpp:84][main] MSG: a=1, b=2, c=3, d=4, e=1, f=stringvalue, g=5.123400
+[2022-05-28 23:08:40.170.002][pid:3159][test_rapidjson.cpp:93][main] MSG: object: a=11, e=0, f=obj.stringvalue, g=15.123400
+[2022-05-28 23:08:40.170.015][pid:3159][test_rapidjson.cpp:104][main] MSG: array1.object: a=111, e=0, f=arr.obj.stringvalue, g=115.123400
+[2022-05-28 23:08:40.170.027][pid:3159][test_rapidjson.cpp:104][main] MSG: array1.object: a=211, e=1, f=arr.obj.stringvalue, g=215.123400
+[2022-05-29 00:09:32.849.110][pid:1688][test_rapidjson.cpp:64][main] MSG: start
+[2022-05-29 00:09:32.850.036][pid:1688][test_rapidjson.cpp:84][main] MSG: a=1, b=2, c=3, d=4, e=1, f=stringvalue, g=5.123400
+[2022-05-29 00:09:32.850.071][pid:1688][test_rapidjson.cpp:93][main] MSG: object: a=11, e=0, f=obj.stringvalue, g=15.123400
+[2022-05-29 00:09:32.850.094][pid:1688][test_rapidjson.cpp:104][main] MSG: i=0 array1.object: a=111, e=0, f=arr.obj.stringvalue, g=115.123400
+[2022-05-29 00:09:32.850.106][pid:1688][test_rapidjson.cpp:104][main] MSG: i=1 array1.object: a=211, e=1, f=arr.obj.stringvalue, g=215.123400
+[2022-05-29 00:09:32.850.116][pid:1688][test_rapidjson.cpp:116][main] MSG: i=0 array2: a=311
+[2022-05-29 00:09:32.850.123][pid:1688][test_rapidjson.cpp:116][main] MSG: i=1 array2: a=411
+[2022-05-29 00:09:32.850.131][pid:1688][test_rapidjson.cpp:116][main] MSG: i=2 array2: a=511
+[2022-05-29 00:09:32.850.140][pid:1688][test_rapidjson.cpp:128][main] MSG: i=0 array3: f=string1
+[2022-05-29 00:09:32.850.165][pid:1688][test_rapidjson.cpp:128][main] MSG: i=1 array3: f=string2
+[2022-05-29 00:09:32.850.180][pid:1688][test_rapidjson.cpp:128][main] MSG: i=2 array3: f=string3
+[2022-05-29 00:09:32.850.189][pid:1688][test_rapidjson.cpp:140][main] MSG: i=0 array3: g=1.100000
+[2022-05-29 00:09:32.850.197][pid:1688][test_rapidjson.cpp:140][main] MSG: i=1 array3: g=2.200000
+[2022-05-29 00:09:32.850.205][pid:1688][test_rapidjson.cpp:138][main] ERR: parse element arr.double failed
+[2022-05-29 00:11:12.928.866][pid:2631][test_rapidjson.cpp:64][main] MSG: start
+[2022-05-29 00:11:12.928.984][pid:2631][test_rapidjson.cpp:84][main] MSG: a=1, b=2, c=3, d=4, e=1, f=stringvalue, g=5.123400
+[2022-05-29 00:11:12.929.008][pid:2631][test_rapidjson.cpp:93][main] MSG: object: a=11, e=0, f=obj.stringvalue, g=15.123400
+[2022-05-29 00:11:12.929.021][pid:2631][test_rapidjson.cpp:104][main] MSG: i=0 array1.object: a=111, e=0, f=arr.obj.stringvalue, g=115.123400
+[2022-05-29 00:11:12.929.034][pid:2631][test_rapidjson.cpp:104][main] MSG: i=1 array1.object: a=211, e=1, f=arr.obj.stringvalue, g=215.123400
+[2022-05-29 00:11:12.929.044][pid:2631][test_rapidjson.cpp:116][main] MSG: i=0 array2: a=311
+[2022-05-29 00:11:12.929.054][pid:2631][test_rapidjson.cpp:116][main] MSG: i=1 array2: a=411
+[2022-05-29 00:11:12.929.063][pid:2631][test_rapidjson.cpp:116][main] MSG: i=2 array2: a=511
+[2022-05-29 00:11:12.929.072][pid:2631][test_rapidjson.cpp:128][main] MSG: i=0 array3: f=string1
+[2022-05-29 00:11:12.929.081][pid:2631][test_rapidjson.cpp:128][main] MSG: i=1 array3: f=string2
+[2022-05-29 00:11:12.929.090][pid:2631][test_rapidjson.cpp:128][main] MSG: i=2 array3: f=string3
+[2022-05-29 00:11:12.929.099][pid:2631][test_rapidjson.cpp:140][main] MSG: i=0 array3: g=1.100000
+[2022-05-29 00:11:12.929.107][pid:2631][test_rapidjson.cpp:140][main] MSG: i=1 array3: g=2.200000
+[2022-05-29 00:11:12.929.116][pid:2631][test_rapidjson.cpp:138][main] ERR: parse element arr.double failed
+[2022-05-29 00:11:32.617.583][pid:2707][test_rapidjson.cpp:64][main] MSG: start
+[2022-05-29 00:11:32.617.683][pid:2707][test_rapidjson.cpp:84][main] MSG: a=1, b=2, c=3, d=4, e=1, f=stringvalue, g=5.123400
+[2022-05-29 00:11:32.617.718][pid:2707][test_rapidjson.cpp:93][main] MSG: object: a=11, e=0, f=obj.stringvalue, g=15.123400
+[2022-05-29 00:11:32.617.740][pid:2707][test_rapidjson.cpp:104][main] MSG: i=0 array1.object: a=111, e=0, f=arr.obj.stringvalue, g=115.123400
+[2022-05-29 00:11:32.617.760][pid:2707][test_rapidjson.cpp:104][main] MSG: i=1 array1.object: a=211, e=1, f=arr.obj.stringvalue, g=215.123400
+[2022-05-29 00:11:32.617.794][pid:2707][test_rapidjson.cpp:116][main] MSG: i=0 array2: a=311
+[2022-05-29 00:11:32.617.806][pid:2707][test_rapidjson.cpp:116][main] MSG: i=1 array2: a=411
+[2022-05-29 00:11:32.617.815][pid:2707][test_rapidjson.cpp:116][main] MSG: i=2 array2: a=511
+[2022-05-29 00:11:32.617.825][pid:2707][test_rapidjson.cpp:128][main] MSG: i=0 array3: f=string1
+[2022-05-29 00:11:32.617.834][pid:2707][test_rapidjson.cpp:128][main] MSG: i=1 array3: f=string2
+[2022-05-29 00:11:32.617.842][pid:2707][test_rapidjson.cpp:128][main] MSG: i=2 array3: f=string3
+[2022-05-29 00:11:32.617.852][pid:2707][test_rapidjson.cpp:140][main] MSG: i=0 array3: g=1.100000
+[2022-05-29 00:11:32.617.861][pid:2707][test_rapidjson.cpp:140][main] MSG: i=1 array3: g=2.200000
+[2022-05-29 00:11:32.617.870][pid:2707][test_rapidjson.cpp:140][main] MSG: i=2 array3: g=3.300000
